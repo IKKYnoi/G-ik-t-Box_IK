@@ -4,6 +4,7 @@
         <title>G(ik)t Box</title>
         <link rel="icon" type="image/png" href="Resize_G(ik)t-box.png">
 
+
         <!--เพิ่ม style เป็นหัวใจในการตกแต่ง CSS หน้าตา เสื้อผ้า-->
         <style>
 
@@ -238,6 +239,18 @@
 
         }
 
+        .shadow {
+            animation: pulse 1s ease-in-out infinite;
+            z-index: 0;
+            width: 170px;
+            height: 80px;
+            border-radius: 1000px;
+            background: #0c162e;
+            position: absolute;
+            left: -12.5px;
+            top: 50px;
+        }
+
         /*Animation*/
 
         @keyframes float {
@@ -313,6 +326,8 @@
                 <div class="box-shadow"></div> <!--เงากล่องกับฝา-->
                 <div class="box-bow-shadow"></div>
             </div> <!--กล่อง-->
+
+            <div class="shadow"></div> <!--เงาทุกอย่าง-->
         </div> <!--กล่องสี่เหลี่ยม 1ชุด และตั้งชื่อว่า gift-box-->
 
         <div class="popup">
@@ -346,7 +361,6 @@
             giftBox.classList.remove('open');
         });
 </script>
-
 
 
 </html>
