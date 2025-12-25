@@ -1,0 +1,350 @@
+<!DOCTYPE html> <!--“ไฟล์นี้เป็นเว็บแบบมาตรฐานสมัยใหม่”-->
+<html lang="th"> <!--ทุกอย่างของหน้าเว็ปอยู่ในนี้-->
+    <head> <!--ข้อมูลเบื้องหลัง ไม่แสดงบนจอ-->
+        <title>G(ik)t Box</title>
+
+        <!--เพิ่ม style เป็นหัวใจในการตกแต่ง CSS หน้าตา เสื้อผ้า-->
+        <style>
+
+        /*สั่งงานพื้นที่ทั้งหน้าเว็ป*/
+        body {
+            margin: 0; /*ลบพื้นที่ว่างรอบๆ object*/
+            height: 100vh; /*vh คือความสูงของหน้าจอ 100vh คือเต็มจอ*/
+            display: flex; /*เปิดโหมดจัดวางอัตโนมัติ*/
+            justify-content: center; /*จัดแนวนอนให้อยู่ตรงกลาง*/
+            align-items: center; /*จัดแนวตั้งให้อยู่ตรงกลาง*/
+            background-color: #132348;
+        }
+
+        /*Pop up*/
+        .popup {
+        z-index: 0;
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.4);
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.4s ease;
+        }
+
+        .popup-content {
+        z-index: 0;
+        background: white;
+        padding: 24px;
+        border-radius: 16px;
+        text-align: center;
+        }
+
+        .popup.show { /*โชว์ POP UP*/
+        z-index: 0;
+        opacity: 1;
+        pointer-events: auto;
+        }
+
+        /*ลากgiftboxให้มาแต่งตัว*/
+        .gift-box { /*.แปลว่าเรียกคลาส*/
+            z-index: 0; /*layer เลขมากกว่าอยู่หน้า*/
+            width: 150px; /*ความกว้าง*/
+            height: 150px; /*ความสูง*/
+            background: #132348; /*เติมสี*/
+            cursor: pointer; /*เวาลาชี้เม้าจะเปลี่ยน*/
+            border-radius: 12px; /*เพิ่มความมนให้กับกล่อง*/
+            position: relative; /*อ้างอิงตำแหน่งลูกของชุดgift box*/
+        }
+
+        .box {
+            animation: pulse 1s ease-in-out infinite;
+            z-index: 1;
+            position: relative;
+            width: 145px;
+            height: 109.5px;
+            background: pink;
+            outline: 7px outset #e98abd;
+            outline-offset: -7px;
+            border-radius: 16px;
+            display: flex; /*เปิดโหมดจัดวางอัตโนมัติ*/
+            justify-content: center; /*จัดแนวนอนให้อยู่ตรงกลาง*/
+            align-items: center; /*จัดแนวตั้งให้อยู่ตรงกลาง*/
+            overflow: hidden; /*ลูกๆที่เลย box ไปจะถูกตัดทิ้ง*/
+        }
+
+        .box-bow {
+            z-index: 2;
+            width: 43px;
+            height: 112.5px;
+            position: absolute;
+            left: 50.5px;
+            background-color: blueviolet;
+            outline: 5px outset rgb(126, 40, 207);
+            outline-offset: -5px;
+            
+        }
+
+        .lid {
+            animation: float 1s ease-in-out infinite;
+            /*
+            float -> ชื่ออนิเมชั่น
+            3s -> ใช้เวลา 3 วินาที
+            ease-in-out -> ค่อยไปค่อยมา
+            infinite -> เล่นวนตลอด*/
+            z-index: 3;
+            width: 160px; 
+            height: 47.5px;
+            background: #f68cc1; 
+            outline: 7px outset #d468bf;
+            outline-offset: -7px;
+            border-radius: 16px;
+            position: absolute; /*ฉันจะลอย ไม่กินพื้นที่ปกติ*/
+            top: -33px; /*ดันฝาขึ้นบน ค่าติดลบคือลอยออกจากกล่อง*/
+            left: -8px; /*ขยับซ้ายเล็กน้อยให้สมดุล*/
+            display: flex; /*เปิดโหมดจัดวางอัตโนมัติ*/
+            justify-content: center; /*จัดแนวนอนให้อยู่ตรงกลาง*/
+            align-items: center; /*จัดแนวตั้งให้อยู่ตรงกลาง*/
+        }
+
+        .lid-bow-line {
+            z-index: 4;
+            width: 45px;
+            height: 47.5px;
+            position: absolute;
+            background-color: rgb(101, 9, 186);
+            outline: 5px outset rgb(119, 38, 195);
+            outline-offset: -5px;
+        }
+
+        .lid-bow-center {
+            z-index: 3;
+            width: 40px;
+            height: 35px;
+            background: #f6b68b;
+            position: absolute;
+            top: -15px;
+            border-radius: 12px;
+            outline: 4px outset #e1a780;
+            outline-offset: -4px;
+        }
+
+        .lid-bow-left {
+            z-index: 2;
+            width: 60px;
+            height: 60px;
+            transform: rotate(40deg); /*หมุน45องศา*/
+            position: absolute;
+            left: 10px;
+            top: -60px;
+            background: #fad39b;
+            border-radius: 12px;
+            outline: 4px outset #eea777;
+            outline-offset: -4px;
+        }
+
+        .shadow-bow-left {
+            width: 35px;
+            height: 15px;
+            transform: rotate(0deg); /*หมุน45องศา*/
+            position: absolute;
+            left: 5px;
+            top: 6px;
+            background: #eea777;
+            border-radius: 12px;
+        }
+
+        .lid-bow-right {
+            z-index: 2;
+            width: 60px;
+            height: 60px;
+            transform: rotate(55deg); /*หมุน45องศา*/
+            position: absolute;
+            right: 15px;
+            top: -60px;
+            background: #fad39b;
+            border-radius: 12px;
+            outline: 4px outset #eea777;
+            outline-offset: -4px;
+        }
+
+        .shadow-bow-right {
+            width: 35px;
+            height: 15px;
+            transform: rotate(90deg); /*หมุน45องศา*/
+            position: absolute;
+            left: -3px;
+            top: 15px;
+            background: #eea777;
+            border-radius: 12px;
+        }
+
+        .box-shadow {
+            z-index: 2;
+            width: 150px;
+            height: 15px;
+            position: absolute;
+            background: rgb(237, 168, 180);
+            overflow: hidden;
+            top: 5px;
+        }
+
+        .box-bow-shadow {
+            z-index: 3;
+            width: 43px;
+            left: 50.5px;
+            height: 15px;
+            position: absolute;
+            background: rgb(93, 9, 172);
+            overflow: hidden;
+            top: 5px;
+        }
+
+        .pin-star {
+            z-index: 4;
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            background: #fff8dc;
+
+            clip-path: polygon(
+            50% 0%,
+            65% 30%,
+            100% 50%,
+            65% 70%,
+            50% 100%,
+            35% 70%,
+            0% 50%,
+            35% 30%
+            );
+
+            border-radius: 50px;
+            top: 10px;
+
+        }
+
+
+        .pin-ring {
+            z-index: 5;
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            border: 10px outset #fbf996;
+            border-radius: 50%;
+            top: 0px;
+            outline: 6px outset #cccb70;
+            outline-offset: -6px;
+
+        }
+
+        /*Animation*/
+
+        @keyframes float {
+        0% {
+        transform: translateY(0) rotate(0deg);
+        }
+        50% {
+        transform: translateY(-6px) rotate(-3deg);
+        }
+        100% {
+        transform: translateY(0) rotate(0deg);
+        }
+        }
+
+        @keyframes pulse {
+         0% {
+        transform: scale(1);
+        }
+        50% {
+        transform: scale(0.94);
+        }
+        100% {
+        transform: scale(1);
+        }
+        }
+
+        .gift-box.open .lid {
+            animation: none;  
+            transform: translateY(-45px) rotate(-12deg);
+        }
+
+        .gift-box.open .lid-bow-left {
+            animation: none;  
+            transform: translate(-20px, -40px) rotate(30deg);
+        }
+
+        .gift-box.open .lid-bow-right {
+            animation: none;  
+            transform: translate(-10px, -60px) rotate(30deg);
+        }
+
+        .lid,
+        .lid-bow-left,
+        .lid-bow-right {
+            transition: transform 0.6s cubic-bezier(.25,1.5,.5,1);
+        }
+
+
+
+
+        </style>
+    </head>
+
+    <body> <!--ส่วนที่แสดงบนจอจริง-->
+        <div class="gift-box"> <!--รวมทุกชิ้น-->
+            <div class="lid">
+                <div class="lid-bow-line"></div> <!--สายฝากล่อง-->
+                <div class="lid-bow-center"></div> <!--โบว์กลาง-->
+                <div class="pin-star"></div>
+                <div class="pin-ring"></div>
+            </div> <!--ฝา-->
+
+            <div class="lid-bow-left">
+                <div class="shadow-bow-left"></div>
+            </div> <!--โบว์ซ้าย-->
+
+            <div class="lid-bow-right">
+                <div class="shadow-bow-right"></div>
+            </div> <!--โบว์ขวา-->
+
+            <div class="box">
+                <div class="box-bow"></div> <!--สายกล่อง-->
+                <div class="box-shadow"></div> <!--เงากล่องกับฝา-->
+                <div class="box-bow-shadow"></div>
+            </div> <!--กล่อง-->
+        </div> <!--กล่องสี่เหลี่ยม 1ชุด และตั้งชื่อว่า gift-box-->
+
+        <div class="popup">
+                <div class="popup-content">
+                    <h2>สรุปเวกเตอร์</h2>
+                    <a href="https://drive.google.com/drive/folders/1t5k-Do3NC9JsUrSHcAX8t3xhJUMcaTYz" target="_blank">
+                 คลิกที่นี้เลยจ้า
+                    </a>
+            </div>
+        </div>
+    </body>
+
+    <script>
+    const giftBox = document.querySelector('.gift-box');
+    const popup = document.querySelector('.popup');
+
+    giftBox.addEventListener('click', () => {
+
+        // 1. เปิดกล่อง
+        giftBox.classList.add('open');
+
+        // 2. รออนิเมชันจบ แล้วค่อยขึ้น popup
+        setTimeout(() => {
+            popup.classList.add('show');
+            }, 700); // ต้องมากกว่า transition (0.6s)
+        });
+
+        // คลิกพื้นหลังปิด popup
+        popup.addEventListener('click', () => {
+            popup.classList.remove('show');
+            giftBox.classList.remove('open');
+        });
+</script>
+
+
+</html>
